@@ -48,7 +48,6 @@ with st.form(key="batting_stats"):
 
     batting_stats_button = st.form_submit_button("View Batting Stats")
     if batting_stats_button:
-        st.write(team_name)
         league_average, season_average, all_stats = get_stats(team_name)
 
         # Runs Figure
