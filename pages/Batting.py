@@ -3,7 +3,7 @@ import streamlit as st
 import sys
 sys.path.append(os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'functions')))
 import plotly.graph_objects as go
-from batting_stats import get_team_names
+from batting_stats import get_team_names, get_stats
 
 st.set_page_config(layout="wide")
 team_names = get_team_names()
@@ -16,3 +16,7 @@ with st.form(key="batting_stats"):
     batting_stats_button = st.form_submit_button("View Batting Stats")
     if batting_stats_button:
         st.write(team_name)
+        league_average, season_average, all_stats = get_stats(team_name)
+        st.write(league_average)
+        st.write(season_average)
+        st.write(all_stats)
