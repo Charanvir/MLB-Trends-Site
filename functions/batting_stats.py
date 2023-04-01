@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine as cd
 from sqlalchemy.sql import text
+import sqlalchemy as sa
 import pandas as pd
 
 load_dotenv()
