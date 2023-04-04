@@ -20,3 +20,6 @@ with st.form(key="pitching_stats"):
     starting_pitcher_button = st.form_submit_button("View Stats")
     if starting_pitcher_button:
         league_average, season_average, all_stats = get_stats(team_name, starting_pitcher)
+        print(league_average)
+        print(season_average)
+        print(all_stats)

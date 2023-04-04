@@ -59,5 +59,67 @@ def league_average():
     return [league_average_home[0], league_average_away[0]]
 
 
+def season_average(teamName):
+    season_average_home_query = text(
+        f"SELECT ERA, FIP, xFIP, AVG, WHIP, R, ER, K, BB, HR9, GB, FB FROM Season_Pitching_Home_2022 WHERE Team = '{teamName}'"
+    )
+    season_average_away_query = text(
+        f"SELECT ERA, FIP, xFIP, AVG, WHIP, R, ER, K, BB, HR9, GB, FB FROM Season_Pitching_Away_2022 WHERE Team = '{teamName}'"
+    )
+    connection = engine.connect()
+    season_average_home_execution = connection.execute(season_average_home_query)
+    season_average_away_execution = connection.execute(season_average_away_query)
+    season_average_home = []
+    season_average_away = []
+    for home_stat in season_average_home_execution:
+        season_average_home.append(home_stat)
+    for away_stat in season_average_away_execution:
+        season_average_away.append(away_stat)
+    connection.close()
+    return [season_average_home[0], season_average_away[0]]
+
+
+def starting_pitcher_stats(teamName, startingPitcher):
+    season_average_pitcher_query = text(
+        f"SELECT ERA, FIP, xFIP, AVG, WHIP, R, ER, K, BB, HR9, GB, FB FROM {teamName}_Pitching_2022 WHERE Name = '{startingPitcher}'"
+    )
+    connection = engine.connect()
+    season_average_pitcher_execution = connection.execute(season_average_pitcher_query)
+    ERA = []
+    FIP = []
+    xFIP = []
+    AVG = []
+    WHIP = []
+    R = []
+    ER = []
+    K = []
+    BB = []
+    HR9 = []
+    GB = []
+    FB = []
+    for stat in season_average_pitcher_execution:
+        ERA.append(stat[0])
+        FIP.append(stat[1])
+        xFIP.append(stat[2])
+        AVG.append(stat[3])
+        WHIP.append(stat[4])
+        R.append(stat[5])
+        ER.append(stat[6])
+        K.append(stat[7])
+        BB.append(stat[8])
+        HR9.append(stat[9])
+        GB.append(stat[10])
+        FB.append(stat[11])
+    connection.close()
+    return [ERA, FIP, xFIP, AVG, WHIP, R, ER, K, BB, HR9, GB, FB]
+
+
+def get_stats(teamName, startingPitcher):
+    league_average_stats = league_average()
+    season_average_stats = season_average(teamName)
+    season_stats = starting_pitcher_stats(teamName, startingPitcher)
+    return league_average_stats, season_average_stats, season_stats
+
+
 if __name__ == "__main__":
-    print(league_average())
+    print(starting_pitcher_stats("TOR", "Jose Berrios"))
